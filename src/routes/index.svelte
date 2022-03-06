@@ -180,6 +180,13 @@
 			}
 		]
 	};
+	// let timetable = {
+	// 	Monday: [],
+	// 	Tuesday: [],
+	// 	Wednesday: [],
+	// 	Thursday: [],
+	// 	Friday: []
+	// };
 
 	function deleteTimeslot(day, index) {
 		if (day === 'Monday') {
@@ -198,9 +205,10 @@
 			timetable.Friday.splice(index, 5);
 			timetable = timetable;
 		}
+		saveEntry();
 	}
 
-	function editTimeslot(day, index) {
+	function editTimeslot(day, index, newName, newPeriod, newStyle) {
 		if (day === 'Monday') {
 			timetable.Monday[index].name = newName;
 			timetable.Monday[index].period = newPeriod;
@@ -222,6 +230,7 @@
 			timetable.Friday[index].period = newPeriod;
 			timetable.Friday[index].style = newStyle;
 		}
+		saveEntry();
 	}
 
 	function addTimeSlot(day) {
@@ -236,30 +245,34 @@
 		} else if (day === Friday) {
 			timetable.Friday = [...timetable.Friday, { name: '??', period: 1, style: '' }];
 		}
+		
 	}
+
 	// Upsert entry
-async function saveEntry() {
-  const { error } = await supabase.from("studentEntries").upsert(
-    {
-      user_id: supabase.auth.user().id,
-      timetable: timetable,
-    },
-    { onConflict: "user_id" }
-  );
-  if (error) alert(error.message);
-}
+	async function saveEntry() {
+		const { error } = await supabase.from('studentEntries').upsert(
+			{
+				user_id: supabase.auth.user().id,
+				timetable: timetable
+			},
+			{ onConflict: 'user_id' }
+		);
+		if (error) alert(error.message);
+	}
 
-// Get entries
-async function getEntries() {
-  const { data, error } = await supabase.from("studentEntries").select();
-  if (error) alert(error.message);
+	// Get entries
+	async function getEntries() {
+		const { data, error } = await supabase.from('studentEntries').select();
+		if (error) {
+			alert(error.message);
+		}
 
-  if (data != "") {
-    timetable = data[0].timetable;
-  }
-}
+		if (data != '') {
+			timetable = data[0].timetable;
+		}
+	}
 
-getEntries();
+	getEntries();
 
 	let curDay;
 	let curIndex;
@@ -273,6 +286,7 @@ getEntries();
 		curName = name;
 		curPeriod = period;
 		curStyle = style;
+		console.log(curDay, curIndex, curName, curPeriod, curStyle);
 	}
 </script>
 
@@ -455,8 +469,22 @@ getEntries();
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancel</button>
-				<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
-				<button type="button" class="btn btn-primary">Save changes</button>
+				<button
+					type="button"
+					class="btn btn-danger"
+					data-bs-dismiss="modal"
+					on:click={() => {
+						deleteTimeslot(curDay, curIndex);
+					}}>Delete</button
+				>
+				<button
+					type="button"
+					class="btn btn-primary"
+					data-bs-dismiss="modal"
+					on:click={() => {
+						editTimeslot(curDay, curIndex, curName, curPeriod, curStyle);
+					}}>Save changes</button
+				>
 			</div>
 		</div>
 	</div>
