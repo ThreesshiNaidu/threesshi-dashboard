@@ -234,15 +234,15 @@
 	}
 
 	function addTimeSlot(day) {
-		if (day === Monday) {
+		if (day === "Monday") {
 			timetable.Monday = [...timetable.Monday, { name: '??', period: 1, style: '' }];
-		} else if (day === Tuesday) {
+		} else if (day === "Tuesday") {
 			timetable.Tuesday = [...timetable.Tuesday, { name: '??', period: 1, style: '' }];
-		} else if (day === Wednesday) {
+		} else if (day ==="Wednesday") {
 			timetable.Wednesday = [...timetable.Wednesday, { name: '??', period: 1, style: '' }];
-		} else if (day === Thursday) {
+		} else if (day === "Thursday") {
 			timetable.Thursday = [...timetable.Thursday, { name: '??', period: 1, style: '' }];
-		} else if (day === Friday) {
+		} else if (day === "Friday") {
 			timetable.Friday = [...timetable.Friday, { name: '??', period: 1, style: '' }];
 		}
 		
@@ -331,7 +331,7 @@
 						</button>
 					</td>
 				{/each}
-				<td> <button class="btn" on:click={(addTimeSlot) => addTimeSlot('Monday')}>+</button></td>
+				<td> <button class="btn" on:click={() => addTimeSlot('Monday')}>+</button></td>
 			</tr>
 
 			<tr>
@@ -350,7 +350,7 @@
 						</button>
 					</td>
 				{/each}
-				<td> <button class="btn" on:click={(addTimeSlot) => addTimeSlot('Tuesday')}>+</button></td>
+				<td> <button class="btn" on:click={() => addTimeSlot('Tuesday')}>+</button></td>
 			</tr>
 
 			<tr>
@@ -370,7 +370,7 @@
 					</td>
 				{/each}
 				<td>
-					<button class="btn" on:click={(addTimeSlot) => addTimeSlot('Wednesday')}>+</button></td
+					<button class="btn" on:click={() => addTimeSlot('Wednesday')}>+</button></td
 				>
 			</tr>
 
@@ -390,7 +390,7 @@
 						</button>
 					</td>
 				{/each}
-				<td> <button class="btn" on:click={(addTimeSlot) => addTimeSlot('Thursday')}>+</button></td>
+				<td> <button class="btn" on:click={() => addTimeSlot('Thursday')}>+</button></td>
 			</tr>
 
 			<tr>
@@ -409,16 +409,13 @@
 						</button>
 					</td>
 				{/each}
-				<td> <button class="btn" on:click={(addTimeSlot) => addTimeSlot('Friday')}>+</button></td>
+				<td> <button class="btn" on:click={() => addTimeSlot('Friday')}>+</button></td>
 			</tr>
 		</tbody>
 	</table>
 </div>
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal">
-	Edit Time Slot
-</button>
+
 
 <!-- Modal -->
 <div
